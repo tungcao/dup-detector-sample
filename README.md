@@ -31,12 +31,12 @@ gộp hết vào `.env` cho gọn.
 
 ## Chạy pilot với sample code có sẵn
 
-Thư mục `sample-src/` có sẵn 2 file với 3 cặp duplicate cố ý cài vào (đổi tên hàm,
+Thư mục `src/` có sẵn 2 file với 3 cặp duplicate cố ý cài vào (đổi tên hàm,
 đổi cấu trúc code) để bạn thấy pipeline hoạt động đúng:
 
 ```bash
 npm start
-# tương đương: node index.js ./sample-src 0.35
+# tương đương: node index.js ./src 0.35
 ```
 
 Kết quả mong đợi: phát hiện đúng 3 cặp duplicate, xếp hạng theo độ giống nhau,
@@ -80,12 +80,12 @@ ollama pull mxbai-embed-large     # nặng hơn, chất lượng cao hơn
 
 # 4. Chạy pilot với Ollama:
 export EMBEDDING_ENGINE=ollama
-node index.js ./sample-src 0.6
+node index.js ./src 0.6
 ```
 
 Lưu ý: threshold với Ollama sẽ khác với threshold của `hash` (thường cao hơn,
 tách biệt rõ hơn giữa duplicate thật và không liên quan) — chạy thử trên
-`sample-src` trước để có cảm giác về thang điểm, rồi mới áp dụng lên codebase
+`src` trước để có cảm giác về thang điểm, rồi mới áp dụng lên codebase
 thật.
 
 Nếu gặp lỗi `ECONNREFUSED` hoặc lỗi 404 từ Ollama: kiểm tra `ollama list` xem
@@ -141,7 +141,7 @@ duplicate check trên mỗi Pull Request và comment kết quả thẳng vào PR
 
 ### Trước khi dùng cho project thật
 
-- Đổi `./sample-src` trong bước "Run duplicate detector" thành thư mục source
+- Đổi `./src` trong bước "Run duplicate detector" thành thư mục source
   code thật của bạn (ví dụ `./src`).
 - Threshold `0.6` là điểm khởi đầu cho engine `ollama` — nên chạy thử vài lần
   trên PR thật để tune lại cho phù hợp codebase của bạn.
@@ -166,7 +166,7 @@ dup-detector/
 ├── embed.js          # Bước 2: sinh embedding (local + API)
 ├── similarity.js     # Bước 3: cosine similarity + ranking
 ├── index.js           # Chạy end-to-end, in report
-├── sample-src/        # Code mẫu có cài sẵn duplicate để test
+├── src/        # Code mẫu có cài sẵn duplicate để test
 │   ├── userService.js
 │   └── orderService.js
 └── package.json
