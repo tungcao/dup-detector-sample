@@ -25,3 +25,10 @@ export function calculateDiscount(price, percent) {
   const discount = price * (percent / 100);
   return price - discount;
 }
+
+export function getUserDisplayName(u) {
+  if (!u) return '';
+  const f = u.firstName ? u.firstName.trim() : '';
+  const l = u.lastName ? u.lastName.trim() : '';
+  return `${f} ${l}`.trim();
+}
