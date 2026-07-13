@@ -1,0 +1,33 @@
+
+> dup-detector-pilot@1.0.0 start
+> node index.js ./sample-src 0.35
+
+◇ injected env (3) from .env // tip: ⌘ enable debugging { debug: true }
+
+=== BƯỚC 1: Extract functions từ "./sample-src" ===
+Tìm thấy 7 functions.
+
+=== BƯỚC 2: Generate embedding (engine = "hash") ===
+  ✓ embedded: orderService.js::checkEmailFormat
+  ✓ embedded: orderService.js::applyDiscountToPrice
+  ✓ embedded: orderService.js::generateOrderId
+  ✓ embedded: userService.js::formatUserName
+  ✓ embedded: userService.js::buildFullName
+  ✓ embedded: userService.js::isValidEmail
+  ✓ embedded: userService.js::calculateDiscount
+
+=== BƯỚC 3: So sánh cosine similarity (threshold = 0.35) ===
+Phát hiện 3 cặp nghi ngờ duplicate:
+
+1. [🟡 LOW] similarity=0.5476
+   - userService.js::formatUserName
+   - userService.js::buildFullName
+
+2. [🟡 LOW] similarity=0.5466
+   - orderService.js::applyDiscountToPrice
+   - userService.js::calculateDiscount
+
+3. [🟡 LOW] similarity=0.3753
+   - orderService.js::checkEmailFormat
+   - userService.js::isValidEmail
+

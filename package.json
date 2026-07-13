@@ -1,0 +1,24 @@
+{
+  "name": "dup-detector-pilot",
+  "version": "1.0.0",
+  "description": "Pilot: phat hien duplicate code (ca duplicate ten khac nhau, logic giong nhau) bang AST extraction + embedding + cosine similarity",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js ./sample-src 0.35",
+    "extract": "node extract.js ./sample-src",
+    "scan": "node index.js"
+  },
+  "keywords": [
+    "duplicate-code",
+    "code-embedding",
+    "ast",
+    "cosine-similarity"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/parser": "^8.0.4",
+    "@babel/traverse": "^8.0.4",
+    "dotenv": "^17.4.2"
+  }
+}

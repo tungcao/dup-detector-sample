@@ -1,0 +1,105 @@
+
+> dup-detector-pilot@1.0.0 start
+> node index.js ./sample-src 0.35
+
+◇ injected env (3) from .env // tip: ⌘ enable debugging { debug: true }
+
+=== BƯỚC 1: Extract functions từ "./sample-src" ===
+Tìm thấy 7 functions.
+
+=== BƯỚC 2: Generate embedding (engine = "ollama") ===
+  ✓ embedded: orderService.js::checkEmailFormat
+  ✓ embedded: orderService.js::applyDiscountToPrice
+  ✓ embedded: orderService.js::generateOrderId
+  ✓ embedded: userService.js::formatUserName
+  ✓ embedded: userService.js::buildFullName
+  ✓ embedded: userService.js::isValidEmail
+  ✓ embedded: userService.js::calculateDiscount
+
+=== BƯỚC 3: So sánh cosine similarity (threshold = 0.35) ===
+Phát hiện 21 cặp nghi ngờ duplicate:
+
+1. [🟡 LOW] similarity=0.7712
+   - orderService.js::applyDiscountToPrice
+   - userService.js::calculateDiscount
+
+2. [🟡 LOW] similarity=0.6507
+   - orderService.js::checkEmailFormat
+   - userService.js::isValidEmail
+
+3. [🟡 LOW] similarity=0.6264
+   - userService.js::formatUserName
+   - userService.js::buildFullName
+
+4. [🟡 LOW] similarity=0.5982
+   - orderService.js::applyDiscountToPrice
+   - orderService.js::generateOrderId
+
+5. [🟡 LOW] similarity=0.5664
+   - orderService.js::generateOrderId
+   - userService.js::calculateDiscount
+
+6. [🟡 LOW] similarity=0.5625
+   - orderService.js::generateOrderId
+   - userService.js::formatUserName
+
+7. [🟡 LOW] similarity=0.5616
+   - orderService.js::checkEmailFormat
+   - userService.js::formatUserName
+
+8. [🟡 LOW] similarity=0.5513
+   - orderService.js::applyDiscountToPrice
+   - userService.js::buildFullName
+
+9. [🟡 LOW] similarity=0.546
+   - orderService.js::applyDiscountToPrice
+   - userService.js::formatUserName
+
+10. [🟡 LOW] similarity=0.5455
+   - orderService.js::checkEmailFormat
+   - userService.js::calculateDiscount
+
+11. [🟡 LOW] similarity=0.5441
+   - orderService.js::generateOrderId
+   - userService.js::buildFullName
+
+12. [🟡 LOW] similarity=0.5435
+   - userService.js::formatUserName
+   - userService.js::calculateDiscount
+
+13. [🟡 LOW] similarity=0.5392
+   - userService.js::isValidEmail
+   - userService.js::calculateDiscount
+
+14. [🟡 LOW] similarity=0.5357
+   - userService.js::buildFullName
+   - userService.js::calculateDiscount
+
+15. [🟡 LOW] similarity=0.5301
+   - orderService.js::checkEmailFormat
+   - orderService.js::applyDiscountToPrice
+
+16. [🟡 LOW] similarity=0.5249
+   - orderService.js::generateOrderId
+   - userService.js::isValidEmail
+
+17. [🟡 LOW] similarity=0.5117
+   - orderService.js::checkEmailFormat
+   - orderService.js::generateOrderId
+
+18. [🟡 LOW] similarity=0.5045
+   - orderService.js::applyDiscountToPrice
+   - userService.js::isValidEmail
+
+19. [🟡 LOW] similarity=0.4919
+   - userService.js::buildFullName
+   - userService.js::isValidEmail
+
+20. [🟡 LOW] similarity=0.4901
+   - orderService.js::checkEmailFormat
+   - userService.js::buildFullName
+
+21. [🟡 LOW] similarity=0.4892
+   - userService.js::formatUserName
+   - userService.js::isValidEmail
+
