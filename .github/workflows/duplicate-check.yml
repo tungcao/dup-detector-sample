@@ -47,7 +47,7 @@ jobs:
 
       - name: Pull Ollama Embedding Model
         # Nếu đã hit cache thì bỏ qua bước pull để tiết kiệm thời gian
-        if: steps:cache-ollama.outputs.cache-hit != 'true'
+        if: steps.cache-ollama.outputs.cache-hit != 'true'
         run: ollama pull nomic-embed-text
 
       # Step 5: Chạy tool quét duplicate code và ghi kết quả ra file
