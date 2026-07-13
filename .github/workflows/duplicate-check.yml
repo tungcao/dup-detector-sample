@@ -22,12 +22,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18' # Hoặc phiên bản Node bạn đang dùng
+          node-version: '22' # Hoặc phiên bản Node bạn đang dùng
           cache: 'npm'
 
       # Step 3: Cài đặt các thư viện trong project
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       # Step 4: Setup và Cache Ollama để không phải tải lại model ở mỗi PR
       - name: Cache Ollama Models
