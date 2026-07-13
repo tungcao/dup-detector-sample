@@ -1,0 +1,78 @@
+name: Duplicate Code Check
+
+on:
+  pull_request:
+    branches: [ main, master, develop ] # Đổi thành nhánh chính của bạn nếu cần
+
+jobs:
+  detect-duplicate:
+    runs-on: ubuntu-latest
+
+    # Cần quyền này để GitHub Action có thể ghi comment vào Pull Request
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      # Step 1: Checkout mã nguồn của PR
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Cài đặt môi trường Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Hoặc phiên bản Node bạn đang dùng
+          cache: 'npm'
+
+      # Step 3: Cài đặt các thư viện trong project
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Setup và Cache Ollama để không phải tải lại model ở mỗi PR
+      - name: Cache Ollama Models
+        id: cache-ollama
+        uses: actions/cache@v4
+        with:
+          path: ~/.ollama
+          key: ${{ runner.os }}-ollama-nomic-embed-text
+
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          # Khởi động Ollama server chạy ngầm
+          ollama serve &
+          # Đợi vài giây cho server khởi động hẳn
+          sleep 5
+
+      - name: Pull Ollama Embedding Model
+        # Nếu đã hit cache thì bỏ qua bước pull để tiết kiệm thời gian
+        if: steps:cache-ollama.outputs.cache-hit != 'true'
+        run: ollama pull nomic-embed-text
+
+      # Step 5: Chạy tool quét duplicate code và ghi kết quả ra file
+      - name: Run duplicate detector
+        env:
+          EMBEDDING_ENGINE: ollama
+          OLLAMA_MODEL: nomic-embed-text
+        run: |
+          # Chạy index.js trên thư mục ./src với threshold 0.6
+          # Sử dụng toán tử tee để vừa in ra console của Action vừa lưu vào file report.txt
+          node index.js ./src 0.6 | tee report.txt
+
+      # Step 6: Đọc file report và post comment trực tiếp lên Pull Request
+      - name: Comment Report on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('report.txt', 'utf8');
+            
+            const commentBody = `### 🔍 Duplicate Code Detector Report\n\`\`\`\n${report}\n\`\`\``;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentBody
+            });
